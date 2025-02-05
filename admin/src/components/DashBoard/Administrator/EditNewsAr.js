@@ -129,9 +129,12 @@ const EditNewsAr = () => {
 
   const handleDelete = async() => {
     if (selectedNews) {
-      const response=await deleteNewsApi(selectedNews.newsID);
-
+      const response=await deleteNewsApi({newsID:selectedNews.newsID,id:selectedNews.approvedBy});
+      if(response.data){
+        alert("Deleted");
+      }
     }
+
   };
 
   const resetForm = () => {

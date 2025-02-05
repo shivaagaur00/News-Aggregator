@@ -35,13 +35,13 @@ if (!news) {
 
 export const deleteNews = async (req, res) => {
   try {
-    const { newsId } = req.params;
-    const news = await News.findOne({ "approvedNews.id": newsId });
-    
+    const { newsID,id } = req.body;
+    const news = await News.findOne({ "administrator.id": id });
+    console.log(news);
     if (!news) {
       return res.status(404).json({ message: "News article not found" });
     }
-    news.approvedNews = news.approvedNews.filter((article) => article.id !== newsId);
+    news.approvedNews = news.approvedNews.filter((article) => article.newsID !== newsID);
     await news.save();
     res.status(200).json({ message: "News article deleted successfully" });
   } catch (error) {

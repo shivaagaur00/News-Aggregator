@@ -12,6 +12,7 @@ export const updateNewsApi = async (data) => {
   };
   export const deleteNewsApi = async (data) => {
     try {
+      console.log(data);
       const res= await axios.post(`${URL}/deleteNews`,data);
       return res;
     } catch (error) {
