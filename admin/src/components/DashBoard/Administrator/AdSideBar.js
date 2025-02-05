@@ -5,7 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
 const AdSideBar = ({ setActivePage }) => {
   return (
     <motion.div
@@ -26,7 +26,7 @@ const AdSideBar = ({ setActivePage }) => {
 
         <ul className="mt-6 space-y-4">
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("home")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
@@ -36,7 +36,7 @@ const AdSideBar = ({ setActivePage }) => {
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("liveFeed")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
@@ -46,7 +46,7 @@ const AdSideBar = ({ setActivePage }) => {
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("addNewsPhoto")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
@@ -56,7 +56,7 @@ const AdSideBar = ({ setActivePage }) => {
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("addNewsVid")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
@@ -66,17 +66,37 @@ const AdSideBar = ({ setActivePage }) => {
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("approveNews")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
           >
             <AddTaskIcon className="mr-3 text-amber-500" />
-            Approve News
+            Approve / Decline News
+          </motion.li>
+          
+          <motion.li
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
+            onClick={() => setActivePage("editNewsArticles")}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 150 }}
+          >
+            <DesignServicesIcon className="mr-3 text-amber-500" />
+            Edit / Delete News Article
+          </motion.li>
+          
+          <motion.li
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
+            onClick={() => setActivePage("editNewsVid")}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 150 }}
+          >
+            <DesignServicesIcon className="mr-3 text-amber-500" />
+            Edit News / Delete Video
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("addReporter")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
@@ -86,7 +106,7 @@ const AdSideBar = ({ setActivePage }) => {
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => setActivePage("reports")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}
@@ -96,7 +116,7 @@ const AdSideBar = ({ setActivePage }) => {
           </motion.li>
 
           <motion.li
-            className="flex items-center text-lg hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-all duration-300"
+            className="flex items-center text-md hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all duration-300"
             onClick={() => alert("Logout action!")}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 150 }}

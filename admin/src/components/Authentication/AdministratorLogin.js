@@ -10,6 +10,7 @@ function AdministratorLogin() {
   const navigate = useNavigate();
   const { setNews } = useAdminContext();
   const { news } = useAdminContext;
+  
   const handleLogin = async () => {
     console.log("Confirmation");
     try {
@@ -17,7 +18,6 @@ function AdministratorLogin() {
       if (res.status === 200) {
         const out = res.data.out;
         setNews(out);
-        // console.log(news);
         navigate(`/Administrator/${name}`);
       } else {
         setError(res.data.message || "An error occurred during login.");

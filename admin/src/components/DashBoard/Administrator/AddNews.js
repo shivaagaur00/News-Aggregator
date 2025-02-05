@@ -14,6 +14,7 @@ import { useAdminContext } from "../../Context/AdminContext";
 const AddNews = () => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
+    newsID:"",
     author: "",
     title: "",
     description: "",
@@ -94,46 +95,44 @@ const AddNews = () => {
 
   const handleSubmit = async () => {
     if (!formData.images.length) {
-      alert("Please upload at least one image.");
-      return;
+        alert("Please upload at least one image.");
+        return;
     }
+        const dataToSubmit = {
+            newsID: formData.newsID,
+            id: `${id}`,
+            author: formData.author,
+            title: formData.title,
+            country: formData.country,
+            tags: formData.tags,
+            categories: formData.categories,
+            date: formData.date,
+            time: formData.time,
+            description: formData.description,
+            images: formData.images,
+            approvedBy: `${id}`,
+        };
 
-    try {
-      const dataToSubmit = {
-        id: `${id}`,
-        author: formData.author,
-        title: formData.title,
-        country: formData.country,
-        tags: formData.tags,
-        categories: formData.categories,
-        date: formData.date,
-        time: formData.time,
-        description: formData.description,
-        images: formData.images,
-        approvedBy:`${id}`,
-      };
-
-      const response = await adminPostAdd(dataToSubmit);
-      if (response.data) {
-        alert("News added successfully!");
-        setFormData({
-          author: "",
-          title: "",
-          description: "",
-          imageFile: null,
-          images: [],
-          country: "",
-          date: "",
-          time: "",
-          tags: [""],
-          categories: [],
-        });
+        const response = await adminPostAdd(dataToSubmit);
+        if (response.data) {
+            alert("News added successfully!");
+            setFormData({
+                newsID: "",
+                author: "",
+                title: "",
+                description: "",
+                images: [],
+                country: "",
+                date: "",
+                time: "",
+                tags: [""],
+                categories: [],
+            });
+        }
+         else {
+          alert( response.response.data.message);
+        }
       }
-    } catch (error) {
-      console.error("Error submitting news:", error);
-      alert("Failed to add news");
-    }
-  };
   const { news } = useAdminContext();
   return (
     <div className="flex justify-center items-center bg-gray-900 w-full min-h-screen p-8">
@@ -148,6 +147,23 @@ const AddNews = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-6">
+          <div>
+              <div className="flex items-center mb-2">
+                <Title className="text-4xl text-blue-500 mr-3" />
+                <label htmlFor="author" className="text-lg text-white">
+                  News ID
+                </label>
+              </div>
+              <input
+                type="text"
+                id="newsID"
+                name="newsID"
+                value={formData.newsID}
+                onChange={handleChange}
+                placeholder="Enter news author"
+                className="w-full p-4 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
             <div>
               <div className="flex items-center mb-2">
                 <Title className="text-4xl text-blue-500 mr-3" />
@@ -328,3 +344,5 @@ const AddNews = () => {
 };
 
 export default AddNews;
+
+

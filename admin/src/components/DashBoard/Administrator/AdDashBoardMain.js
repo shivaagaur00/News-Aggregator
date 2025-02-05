@@ -6,6 +6,8 @@ import ApprovalNews from "./ApprovalNews";
 import AddNewsVid from "./AddNewsVid";
 import AddReporter from "./AddReporter";
 import Reports from "./Reports";
+import EditNewsAr from "./EditNewsAr";
+import EditNewsVid from "./EditNewsVid";
 
 const AdDashBoardMain = () => {
   const [activePage, setActivePage] = useState("home");
@@ -24,6 +26,10 @@ const AdDashBoardMain = () => {
         return <AddReporter />;
       case "reports":
         return <Reports />;
+      case "editNewsArticles":
+        return <EditNewsAr />;
+      case "editNewsVid":
+        return <EditNewsVid></EditNewsVid>
       default:
         return <div>Page Not Found</div>;
     }

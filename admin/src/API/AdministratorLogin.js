@@ -11,9 +11,7 @@ export const loginAdmin = async (data) => {
 };
 export const adminPostAdd = async (data) => {
   try {
-    // console.log(data);
     let res = await axios.post(`${URL}/adminPostAdd`, data);
-    // console.log(data);
     return res;
   } catch (error) {
     return error;

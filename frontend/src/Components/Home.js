@@ -21,21 +21,14 @@ const Home = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
-
-  // WebSocket connection and event handling
   useEffect(() => {
-    // Initialize socket connection
     const socket = initSocket();
-
-    // Listen for 'newNews' event and update news state
     listenToNewNews((newNewsItem) => {
       updateNews((prevNews) => ({
         ...prevNews,
-        approvedNews: [newNewsItem, ...prevNews.approvedNews],  // Prepend the new news item
+        approvedNews: [newNewsItem, ...prevNews.approvedNews],
       }));
     });
-
-    // Cleanup the socket connection on unmount
     return () => {
       disconnectSocket();
     };

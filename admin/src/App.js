@@ -10,7 +10,21 @@ import ReporterLogin from "./components/Authentication/ReporterLogin.js";
 import NotFoundPage from "./components/NotFound.js";
 import AuthenticationMain from "./components/Authentication/AuthenticatonMain.js";
 import AdminContextProvider from "./components/Context/AdminContext.js";
+import { useNewsContext } from "./context/context.js";
+import { useEffect } from "react";
+import { getNewsData } from "./API/newsData.js";
+
 function App() {
+  const { setNews } = useNewsContext();
+
+  useEffect(() => {
+    const fetchNewsData = async () => {
+      let res = await getNewsData();
+      const out = res.data.news;
+      setNews(out);
+    };
+    fetchNewsData();
+  }, [setNews]);
   return (
     <AdminContextProvider>
       <Router>

@@ -1,7 +1,6 @@
 import News from "../Models/news.js";
 export const getNewsData = async (req, res) => {
   try {
-    console.log("Fetching news data...");
     let news = await News.findOne({ name: "news" });
     if (!news) {
       return res.status(404).json({ message: "news not found" });

@@ -105,6 +105,7 @@ const administratorSchema = new mongoose.Schema({
 });
 
 const newsItemSchema = new mongoose.Schema({
+  newsID: {type:String,required:true},
   author: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -115,7 +116,7 @@ const newsItemSchema = new mongoose.Schema({
   time: { type: String, required: true },
   images: { type: [String], default: [] },
   comments: { type: [commentSchema], default: [] },
-  likes: { type: Number, default: 0 },
+  likes: { type: [String], default: 0 },
   approvedBy:{
     type:String,
     required:true,
@@ -136,7 +137,7 @@ const newsSchema = new mongoose.Schema({
     default: [],
   },
   approvedNews: {
-    type: [Object],
+    type: [newsItemSchema],
     default: [],
   },
   users:{

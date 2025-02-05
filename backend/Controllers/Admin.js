@@ -26,46 +26,53 @@ export const loginAdmin = async (req, res) => {
 };
 export const adminPostAdd = async (req, res) => {
     try {
-      const { id,author, title, country, tags, categories, date, time, description, images } = req.body;
-      if (!id || !author|| !title || !country || !description) {
-        return res.status(400).json({ message: "Admin ID, title, country, and description are required fields." });
-      }
-      if (!Array.isArray(tags) || !Array.isArray(categories) || (images && !Array.isArray(images))) {
-        return res.status(400).json({ message: "Tags, categories, and images should be arrays." });
-      }
-      const out=await News.findOne({"name":"news"});
-      const news = await News.findOne({ "administrator.id": id });
-      if (!news) {
-        return res.status(404).json({ message: "Admin not found" });
-      }
-      const admin = news.administrator.find((admin) => admin.id === id);
-      if (!admin) {
-        return res.status(404).json({ message: "Admin not found in the record" });
-      }
-      const newsData = {
-        author,
-        title,
-        country,
-        tags,
-        categories,
-        date: date || new Date().toISOString(),
-        time: time || new Date().toTimeString(),
-        description,
-        images: images || [],
-        comments:[],
-        likes:0,
-        approvedBy:id,
-      };
-      admin.approvedNews.push(newsData);
-      out.approvedNews.push(newsData);   
-    console.log(out.approvedNews);
-      await news.save();
-      await out.save();
-      res.status(201).json({ message: "News added successfully!", data: newsData });
+        const { newsID, id, author, title, country, tags, categories, date, time, description, images } = req.body;
+        if (!id || !author || !title || !country || !description) {
+            return res.status(400).json({ message: "Admin ID, title, country, and description are required fields." });
+        }
+        if (!Array.isArray(tags) || !Array.isArray(categories) || (images && !Array.isArray(images))) {
+            return res.status(400).json({ message: "Tags, categories, and images should be arrays." });
+        }
+        const out = await News.findOne({ "name": "news" });
+        const news = await News.findOne({ "administrator.id": id });
+        if (!news) {
+            return res.status(404).json({ message: "Admin not found" });
+        }
+        const admin = news.administrator.find((admin) => admin.id === id);
+        if (!admin) {
+            return res.status(404).json({ message: "Admin not found in the record" });
+        }
+        const existingNews = admin.approvedNews.find((newsItem) => newsItem.newsID === newsID);
+        if (existingNews) {
+            return res.status(300).json({ message: "News ID must be unique"});
+        }
+        const newsData = {
+            newsID,
+            author,
+            title,
+            country,
+            tags,
+            categories,
+            date: date || new Date().toISOString(),
+            time: time || new Date().toTimeString(),
+            description,
+            images: images || [],
+            comments: [],
+            likes: [],
+            approvedBy: id,
+        };
+        admin.approvedNews.push(newsData);
+        out.approvedNews.push(newsData);
+
+        await news.save();
+        await out.save();
+
+        res.status(201).json({ message: "News added successfully!", data: newsData });
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error", error: error.message });
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
-  };
+};
+
   
 export const adminVidPostAdd = async (req, res) => {
     try {

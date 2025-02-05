@@ -1,29 +1,49 @@
 import News from "../Models/news.js";
 
-export const addComment= async (req,res)=>{
-    try{
-        const {newsId,user,text}=req.body;
-        const news=await News.findById(newsId);
-        if(!news) return res.this.status(404).json({message:"News not found"});
+export const likeNews = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const newsItem = await News.findOne({ "approvedNews._id": req.params.id });
 
-        const comment={user,text,timestamp:new Date()};
-        news.comment.push(comment);
-        await news.save();
-        res.status(201).json({message:"Server error",error});
-    }
-    catch(error){
-        res.status(500).json({message:"Server error",error});
-    }
+    if (!newsItem) return res.status(404).json({ message: "News not found" });
+
+    let updatedNews = newsItem.approvedNews.map((news) => {
+      if (news._id.toString() === req.params.id) {
+        if (news.likes.includes(userId)) {
+          news.likes = news.likes.filter((id) => id !== userId);
+        } else {
+          news.likes.push(userId);
+        }
+      }
+      return news;
+    });
+
+    newsItem.approvedNews = updatedNews;
+    await newsItem.save();
+    res.json({ message: "Like updated", newsItem });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
-export const getComments = async (req, res) => {
-    try {
-      const { newsId } = req.params;
-      const news = await News.findById(newsId);
-      if (!news) return res.status(404).json({ message: "News not found" });
-  
-      res.status(200).json(news.comments);
-    } catch (error) {
-      res.status(500).json({ message: "Server error", error });
-    }
-  };
+export const addComment = async (req, res) => {
+  const { user, text } = req.body;
+  try {
+    const newsItem = await News.findOne({ "approvedNews._id": req.params.id });
+
+    if (!newsItem) return res.status(404).json({ message: "News not found" });
+
+    let updatedNews = newsItem.approvedNews.map((news) => {
+      if (news._id.toString() === req.params.id) {
+        news.comments.push({ user, text });
+      }
+      return news;
+    });
+
+    newsItem.approvedNews = updatedNews;
+    await newsItem.save();
+    res.json({ message: "Comment added", newsItem });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
