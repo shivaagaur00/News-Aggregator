@@ -109,11 +109,46 @@ export const adminVidPostAdd = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 };
-export const addReporter=async(req,res)=>{
-    const{id,password,name,nonApprovedNews,approveNews,nonApproveVideo,approvedVideo}=req.body;
-    
-}
 
+
+export const addReporter = async (req, res) => {
+    try {
+        console.log("Adding reporter...");
+
+        const { uniqueId, password, name, email, aadhaarNumber, headQuarterLocation, photo } = req.body;
+
+        if (!uniqueId || !password || !name || !email || !aadhaarNumber || !headQuarterLocation || !photo) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const out = await News.findOne({ name: "news" });
+        if (!out) {
+            return res.status(404).json({ message: "Admin not found" });
+        }
+
+        const reporterData = {
+            uniqueId,
+            password, // Storing password as plain text (not recommended)
+            name,
+            email,
+            aadhaarNumber,
+            headQuarterLocation,
+            photo,
+            nonApprovedNews: [],
+            approvedNews: [],
+            nonApproveVideo: [],
+            approvedVideo: [],
+        };
+
+        out.reporters.push(reporterData);
+        await out.save(); // Corrected saving method
+
+        console.log("Reporter added:", reporterData);
+        res.status(201).json({ message: "Reporter added successfully!", data: reporterData });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+};
 
 
 

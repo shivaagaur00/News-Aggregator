@@ -1,5 +1,5 @@
 import express from "express";
-import { adminPostAdd, adminVidPostAdd, approveNewsVid,approveNews, loginAdmin } from "./Controllers/Admin.js";
+import { adminPostAdd, adminVidPostAdd, approveNewsVid,approveNews, loginAdmin, addReporter} from "./Controllers/Admin.js";
 import { loginReporter } from "./Controllers/Reporter.js";
 import { getNewsData, UserLogin, UserSignup } from "./Controllers/User.js";
 import {addComment,likeNews} from "./Controllers/Comments.js";
@@ -16,5 +16,6 @@ router.post("/UserLogin", UserLogin);
 router.post("/UserSignup", UserSignup);
 router.post("/newsUpdate", updateNews);
 router.post("/deleteNews", deleteNews);
+router.post("/addReporter", addReporter);
 
 export default router;

@@ -29,7 +29,7 @@ const userDetailsSchema = new mongoose.Schema({
 });
 
 const reporterSchema = new mongoose.Schema({
-  id: {
+  uniqueId: {
     type: String,
     required: true,
   },
@@ -40,6 +40,22 @@ const reporterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  aadhaarNumber:{
+    type:String,
+    required:true,
+  },
+  headQuarterLocation:{
+    type:String,
+    required:true,
+  },
+  photo:{
+    type:String,
+    required:true,
   },
   nonApprovedNews: {
     type: [Object],
