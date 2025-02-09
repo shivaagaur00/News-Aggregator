@@ -9,28 +9,18 @@ function AdministratorLogin() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setNews } = useAdminContext();
-  const { news } = useAdminContext;
-  
   const handleLogin = async () => {
     console.log("Confirmation");
-    try {
       const res = await loginAdmin({ name, password });
+      // console.log(res.response.data.message);
       if (res.status === 200) {
         const out = res.data.out;
         setNews(out);
         navigate(`/Administrator/${name}`);
       } else {
-        setError(res.data.message || "An error occurred during login.");
-      }
-    } catch (err) {
-      if (err.response?.status === 400) {
-        setError("Invalid input. Please check your credentials.");
-      } else if (err.response?.status === 401) {
-        setError("Unauthorized. Incorrect username or password.");
-      } else {
-        setError("An unexpected error occurred. Please try again later.");
-      }
-    }
+        setError(res.response.data.message);
+        alert(error);
+    } 
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">

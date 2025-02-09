@@ -1,29 +1,44 @@
 import News from "../Models/news.js";
 export const loginAdmin = async (req, res) => {
     const { name, password } = req.body;
+
     if (!name || !password) {
-        return res.status(400).json({ message: "ID and password are required" });
+        return res.status(400).json({ message: "Username and password are required." });
     }
+
     try {
         const news = await News.findOne({ "administrator.id": name });
+
         if (!news) {
-            return res.status(404).json({ message: "Admin not found" });
+            return res.status(404).json({ message: "Admin not found. Please check the username." });
         }
+
         const admin = news.administrator.find((admin) => admin.id === name);
-        if (admin.password !== password) {
-            return res.status(401).json({ message: "Invalid credentials" });
+
+        if (!admin) {
+            return res.status(404).json({ message: "Admin account does not exist." });
         }
-        const out=[];
-        out.push(admin.approvedNews);
-        out.push(admin.approvedNewsVid);
-        out.push(admin.nonApprovedNews);
-        out.push(admin.nonApprovedNewsVid);
-        out.push(admin.reporters);
-        res.status(200).json({ message: "Login successful", out });
+
+        if (admin.password !== password) {
+            return res.status(401).json({ message: "Incorrect password. Please try again." });
+        }
+
+        const out = [
+            admin.approvedNews,
+            admin.approvedNewsVid,
+            admin.nonApprovedNews,
+            admin.nonApprovedNewsVid,
+            admin.reporters
+        ];
+
+        return res.status(200).json({ message: "Login successful", out });
+
     } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+        console.error("Login error:", error);
+        return res.status(500).json({ message: "Internal server error. Please try again later." });
     }
 };
+    
 export const adminPostAdd = async (req, res) => {
     try {
         const { newsID, id, author, title, country, tags, categories, date, time, description, images } = req.body;

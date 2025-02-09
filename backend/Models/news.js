@@ -27,6 +27,7 @@ const userDetailsSchema = new mongoose.Schema({
     default: [],
   },
 });
+
 const nonApprovedNewsSchema = new mongoose.Schema({
     newsID: { type: String, required: true, unique: true },
     reporterID: { type: String, required: true },
@@ -42,6 +43,7 @@ const nonApprovedNewsSchema = new mongoose.Schema({
     status: { type: String, enum: ["pending", "rejected"], default: "pending" },
     submittedAt: { type: Date, default: Date.now },
 });
+
 const reporterSchema = new mongoose.Schema({
   uniqueId: {
     type: String,
