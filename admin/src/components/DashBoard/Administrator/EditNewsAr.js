@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useNewsContext } from "../../../context/context";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,7 @@ import { deleteNewsApi, updateNewsApi } from "../../../API/EditNews.js";
 
 const EditNewsAr = () => {
   const { id } = useParams();
-  const { news,} = useNewsContext();
+  const { news} = useNewsContext();
   const [selectedNews, setSelectedNews] = useState(null);
   const [uploading, setUploading] = useState(false);
 

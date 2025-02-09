@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReporterSideBar from "./ReporterSideBar";
 import ReporterHomeDashBoard from "./ReporterHomeDashBoard";
-// import AddNews from "../AddNews";
+import RepAddPost from "./RepAddPost";
 const ReporterDashBoardMain = () => {
   const [activePage, setActivePage] = useState('home');
 
@@ -10,7 +10,7 @@ const ReporterDashBoardMain = () => {
       case 'home':
         return <ReporterHomeDashBoard />;
       case 'addNews':
-        return <ReporterHomeDashBoard />;
+        return <RepAddPost />;
       default:
         return <div>Page Not Found</div>;
     }

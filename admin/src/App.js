@@ -16,7 +16,6 @@ import { getNewsData } from "./API/newsData.js";
 
 function App() {
   const { setNews } = useNewsContext();
-
   useEffect(() => {
     const fetchNewsData = async () => {
       let res = await getNewsData();

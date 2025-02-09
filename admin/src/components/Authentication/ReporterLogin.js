@@ -9,7 +9,7 @@ function ReporterLogin() {
 
   const handleLogin = async () => {
     try {
-      const res = await loginReporter({ name: name, password: password });
+      const res = await loginReporter({ uniqueId: name, password: password });
       if (res.status === 200) {
         navigate(`/Reporter/${name}`);
       } else {

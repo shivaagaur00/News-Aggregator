@@ -9,3 +9,12 @@ export const loginReporter = async (data) => {
     return error;
   }
 };
+export const RepPostAdd=async (data)=>{
+  try{
+    console.log(data);
+    let res=await axios.post(`${URL}/RepPostAdd`,data);
+    return res;
+  }catch(error){
+    return error;
+  }
+}

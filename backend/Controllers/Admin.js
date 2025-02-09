@@ -114,13 +114,10 @@ export const adminVidPostAdd = async (req, res) => {
 export const addReporter = async (req, res) => {
     try {
         console.log("Adding reporter...");
-
         const { uniqueId, password, name, email, aadhaarNumber, headQuarterLocation, photo } = req.body;
-
         if (!uniqueId || !password || !name || !email || !aadhaarNumber || !headQuarterLocation || !photo) {
             return res.status(400).json({ message: "All fields are required" });
         }
-
         const out = await News.findOne({ name: "news" });
         if (!out) {
             return res.status(404).json({ message: "Admin not found" });
@@ -128,7 +125,7 @@ export const addReporter = async (req, res) => {
 
         const reporterData = {
             uniqueId,
-            password, // Storing password as plain text (not recommended)
+            password,
             name,
             email,
             aadhaarNumber,
@@ -141,8 +138,7 @@ export const addReporter = async (req, res) => {
         };
 
         out.reporters.push(reporterData);
-        await out.save(); // Corrected saving method
-
+        await out.save();
         console.log("Reporter added:", reporterData);
         res.status(201).json({ message: "Reporter added successfully!", data: reporterData });
     } catch (error) {
@@ -150,9 +146,66 @@ export const addReporter = async (req, res) => {
     }
 };
 
-
-
-
+export const DecesionApproveDeclineNews = async (req, res) => {
+    try {
+      const { newsID, reporterID, status, adminID } = req.body;
+    //   console.log(req.body);
+      if (!newsID || !reporterID || !status || !adminID) {
+        return res.status(400).json({ message: "Missing required fields." });
+      }
+  
+      const newsDB = await News.findOne({ name: "news" });
+      if (!newsDB) {
+        return res.status(404).json({ message: "News database not found." });
+      }
+  
+      const newsItemIndex = newsDB.nonApprovedNews.findIndex(
+        (news) => news.newsID === newsID
+      );
+      if (newsItemIndex === -1) {
+        return res.status(404).json({ message: "News item not found." });
+      }
+  
+      const newsItem = newsDB.nonApprovedNews[newsItemIndex];
+      newsDB.nonApprovedNews.splice(newsItemIndex, 1);
+  
+      const admin = newsDB.administrator.find((admin) => admin.id === adminID);
+      if (!admin) {
+        return res.status(404).json({ message: "Administrator not found." });
+      }
+  
+      const reporter = newsDB.reporters.find(
+        (reporter) => reporter.uniqueId === reporterID
+      );
+      if (!reporter) {
+        return res.status(404).json({ message: "Reporter not found." });
+      }
+  
+      reporter.nonApprovedNews = reporter.nonApprovedNews.filter(
+        (news) => news.newsID !== newsID
+      );
+    //   console.log(admin);
+  
+      if (status === "accepted") {
+        const approvedNewsItem = { ...newsItem, approvedBy: adminID };
+        newsDB.approvedNews.push(approvedNewsItem);
+        admin.approvedNews.push(approvedNewsItem);
+        reporter.approvedNews.push(approvedNewsItem);
+      } else if (status === "rejected") {
+        newsDB.rejectedNews.push(newsItem);
+        admin.rejectedNews.push(newsItem);
+        reporter.rejectedNews.push(newsItem);
+      } else {
+        return res.status(400).json({ message: "Invalid status value." });
+      }
+      await newsDB.save();
+      res.status(200).json({ message: `News ID: ${newsID} has been ${status}.` });
+    } catch (error) {
+      console.error("Error updating news status:", error);
+      res.status(500).json({ message: "Internal server error." });
+    }
+  };
+  
 
 
 

@@ -27,7 +27,21 @@ const userDetailsSchema = new mongoose.Schema({
     default: [],
   },
 });
-
+const nonApprovedNewsSchema = new mongoose.Schema({
+    newsID: { type: String, required: true, unique: true },
+    reporterID: { type: String, required: true },
+    author: { type: String, required: true },
+    title: { type: String, required: true },
+    country: { type: String, required: true },
+    tags: { type: [String], default: [] },
+    categories: { type: [String], default: [] },
+    date: { type: String, required: true },
+    time: { type: String, required: true },
+    description: { type: String, required: true },
+    images: { type: [String], default: [] },
+    status: { type: String, enum: ["pending", "rejected"], default: "pending" },
+    submittedAt: { type: Date, default: Date.now },
+});
 const reporterSchema = new mongoose.Schema({
   uniqueId: {
     type: String,
@@ -62,8 +76,12 @@ const reporterSchema = new mongoose.Schema({
     default: [],
   },
   approvedNews: {
-    type: [Object],
+    type: [nonApprovedNewsSchema],
     default: [],
+  },
+  rejectedNews:{
+    type:[nonApprovedNewsSchema],
+    default:[],
   },
   nonApproveVideo: {
     type: [Object],
@@ -107,6 +125,10 @@ const administratorSchema = new mongoose.Schema({
     default: [],
   },
   approvedNewsVid: {
+    type: [Object],
+    default: [],
+  },
+  rejectedNews: {
     type: [Object],
     default: [],
   },
@@ -154,6 +176,14 @@ const newsSchema = new mongoose.Schema({
   },
   approvedNews: {
     type: [newsItemSchema],
+    default: [],
+  },
+  nonApprovedNews: {
+    type: [Object],
+    default: [],
+  },
+  rejectedNews: {
+    type: [Object],
     default: [],
   },
   users:{
