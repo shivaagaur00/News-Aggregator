@@ -1,14 +1,12 @@
 import News from "../Models/news.js";
 export const loginAdmin = async (req, res) => {
     const { name, password } = req.body;
-
     if (!name || !password) {
         return res.status(400).json({ message: "Username and password are required." });
     }
 
     try {
         const news = await News.findOne({ "administrator.id": name });
-
         if (!news) {
             return res.status(404).json({ message: "Admin not found. Please check the username." });
         }
