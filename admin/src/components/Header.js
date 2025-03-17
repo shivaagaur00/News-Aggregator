@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
-import vid from "../Assets/vid1.mp4";
+import vid from "./../assets/vid1.mp4";
 const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
   const toggleTheme = () => {

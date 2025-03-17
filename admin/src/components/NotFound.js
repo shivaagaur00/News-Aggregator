@@ -1,5 +1,5 @@
 import React from "react";
-import NOT_FOUND from "./../Assets/Error.png";
+import NOT_FOUND from "./../assets/Error.png";
 function NotFoundPage() {
   return (
     <div className="w-full h-screen flex justify-center items-center overflow-hidden bg-black ">

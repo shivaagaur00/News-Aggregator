@@ -21,25 +21,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", route);
 
-let connectedClients = [];
+// let connectedClients = [];
 
-io.on("connection", (socket) => {
-  console.log("New client connected:", socket.id);
-  connectedClients.push(socket.id);
-  console.log("Connected clients:", connectedClients);
-  socket.on("newComment", (data) => {
-    console.log("New comment:", data);
-    socket.broadcast.emit("commentAdded", data);
-  });
-  socket.on("disconnect", () => {
-    console.log("Client disconnected:", socket.id);
-    connectedClients = connectedClients.filter(client => client !== socket.id);
-    console.log("Connected clients:", connectedClients);
-  });
-});
+// io.on("connection", (socket) => {
+//   console.log("New client connected:", socket.id);
+//   connectedClients.push(socket.id);
+//   console.log("Connected clients:", connectedClients);
+//   socket.on("newComment", (data) => {
+//     console.log("New comment:", data);
+//     socket.broadcast.emit("commentAdded", data);
+//   });
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected:", socket.id);
+//     connectedClients = connectedClients.filter(client => client !== socket.id);
+//     console.log("Connected clients:", connectedClients);
+//   });
+// });
 
 connectDB();
-
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

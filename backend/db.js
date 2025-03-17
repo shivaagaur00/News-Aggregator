@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-const URL = "mongodb://127.0.0.1:27017/class";
+const URL = process.env.MONGODB_URL;
 export const connectDB = async () => {
   try {
     await mongoose.connect(URL);

@@ -12,7 +12,6 @@ export const getNewsData = async (req, res) => {
     return res.status(500).json({ message: "Some error occurred" });
   }
 };
-
 export const UserLogin = async (req, res) => {
   const { id, password } = req.body;
   console.log(id);
